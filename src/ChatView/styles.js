@@ -48,7 +48,26 @@ const styles = theme => ({
       textAlign: 'center',
       color: 'white',
       paddingTop: '10px',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
+ 
+      
+    },
+    delete:{
+      float: 'right',
+      marginRight:'30px',
+      backgroundColor: '#707BC4',
+      outline:'none',
+      border:'none',
+      padding:'7px 20px',
+      fontSize:'0.9em',
+      color: 'white',
+      borderRadius:'5px'
+
+    },
+    seen:{
+     textAlign:'right',
+     marginTop:'10px',
+     marginBottom:'0'
     }
   
   });

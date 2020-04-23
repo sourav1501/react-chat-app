@@ -18,6 +18,7 @@ class DashboardComponent extends Component {
       selectedChat: null,
       newChatFormVisible: false,
       email: null,
+    
       friends: [],
       chats: []
     };
@@ -35,12 +36,18 @@ class DashboardComponent extends Component {
             selectChatFn={this.selectChat} 
             chats={this.state.chats} 
             selectedChatIndex={this.state.selectedChat}
-            newChatBtnFn={this.newChatBtnClicked}>
+            newChatBtnFn={this.newChatBtnClicked}
+            >
+    
           </ChatListComponent>
           {
             this.state.newChatFormVisible ? null : <ChatViewComponent 
               user={this.state.email} 
-              chat={this.state.chats[this.state.selectedChat]}>
+              chats={this.state.chats}
+              chat={this.state.chats[this.state.selectedChat]}
+              delete={this.remove}
+              itemdel={this.itemdelete}
+              >
             </ChatViewComponent>
           }
           { 
@@ -56,9 +63,33 @@ class DashboardComponent extends Component {
       return(<div>LOADING....</div>);
     }
   }
+  
 
   signOut = () => firebase.auth().signOut();
+  itemdelete=(key=>{
+    firebase.firestore.FieldValue.delete()
+    // console.log((this.state.chats[0].messages[0].message)[0])
+    // const docKey = this.buildDocKey(this.state.chats[this.state.selectedChat]
+    //   .messages
+    //   .filter(_usr => _usr.message !== this.state.chats[0].messages[0].message)[0])
+    // firebase.firestore().collection('chats').doc(docKey).delete();
+    firebase.firestore().collection('chats').doc('ankit@gmail.com:sourav@gmail.com').update({
+      "0.message": firebase.firestore.FieldValue.delete()
+    });
+  })
 
+selectChat = async (chatIndex) => {
+  await this.setState({ selectedChat: chatIndex, newChatFormVisible: false });
+  this.messageRead();
+}
+  
+remove=()=>{
+  const docKey = this.buildDocKey(this.state.chats[this.state.selectedChat]
+    .users
+    .filter(_usr => _usr !== this.state.email)[0])
+  firebase.firestore().collection('chats').doc(docKey).delete();
+
+}
   submitMessage = (msg) => {
     const docKey = this.buildDocKey(this.state.chats[this.state.selectedChat]
       .users
@@ -77,8 +108,7 @@ class DashboardComponent extends Component {
       });
   }
 
-  // Always in alphabetical order:
-  // 'user1:user2'
+ 
   buildDocKey = (friend) => [this.state.email, friend].sort().join(':');
 
   newChatBtnClicked = () => this.setState({ newChatFormVisible: true, selectedChat: null });
@@ -102,10 +132,7 @@ class DashboardComponent extends Component {
     this.selectChat(this.state.chats.length - 1);
   }
 
-  selectChat = async (chatIndex) => {
-    await this.setState({ selectedChat: chatIndex, newChatFormVisible: false });
-    this.messageRead();
-  }
+  
 
   goToChat = async (docKey, msg) => {
     const usersInChat = docKey.split(':');
@@ -115,9 +142,7 @@ class DashboardComponent extends Component {
     this.submitMessage(msg);
   }
 
-  // Chat index could be different than the one we are currently on in the case
-  // that we are calling this function from within a loop such as the chatList.
-  // So we will set a default value and can overwrite it when necessary.
+  
   messageRead = () => {
     const chatIndex = this.state.selectedChat;
     const docKey = this.buildDocKey(this.state.chats[chatIndex].users.filter(_usr => _usr !== this.state.email)[0]);
