@@ -11,21 +11,22 @@ const styles = theme => ({
       width: 'calc(100% - 300px)',
       position: 'absolute'
     },
-  
-    userSent: {
-      float: 'left',
-      clear: 'both',
-      padding: '20px',
-      boxSizing: 'border-box',
-      wordWrap: 'break-word',
-      marginTop: '10px',
-      backgroundColor: '#707BC4',
-      color: 'white',
-      width: '300px',
-      borderRadius: '10px'
+    deleteChat: {
+      position: "absolute",
+      right: "0",
+      top: "0",
+      borderRadius: "50%",
+      border: "none",
+      backgroundColor: "transparent",
+      color: "white",
+      cursor: "pointer",
     },
-  
-    friendSent: {
+    chatDate: {
+      marginTop:'-4px',
+      fontSize: "10px",
+      color: "#ffffff9e",
+    },
+    userSent: {
       float: 'right',
       clear: 'both',
       padding: '20px',
@@ -35,7 +36,22 @@ const styles = theme => ({
       backgroundColor: '#707BC4',
       color: 'white',
       width: '300px',
-      borderRadius: '10px'
+      borderRadius: '10px',
+      position:"relative",
+    },
+  
+    friendSent: {
+      float: 'left',
+      clear: 'both',
+      padding: '20px',
+      boxSizing: 'border-box',
+      wordWrap: 'break-word',
+      marginTop: '10px',
+      backgroundColor: '#707BC4',
+      color: 'white',
+      width: '300px',
+      borderRadius: '10px',
+      position:"relative",
     },
   
     chatHeader: {
@@ -66,9 +82,20 @@ const styles = theme => ({
     },
     seen:{
      textAlign:'right',
-     marginTop:'10px',
-     marginBottom:'0'
-    }
+    //  marginTop:'10px',
+     marginBottom:'0',
+     margin:'0',
+     marginTop:'6px',
+
+     padding:'0'
+    },
+    unseen:{
+      textAlign:'right',
+     //  marginTop:'10px',
+      marginTop:'-8px',
+      margin:'0',
+      padding:'0'
+     }
   
   });
   

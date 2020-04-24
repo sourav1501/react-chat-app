@@ -35,18 +35,39 @@ class ChatViewComponent extends React.Component {
           <main id='chatview-container' className={classes.content}>
             {
               this.props.chat.messages.map((_msg, _index) => {
+                const timestamp = Date.now();
                 return(
                   
                 <div key={_index} id='data-id' className={_msg.sender === this.props.user ? classes.userSent : classes.friendSent}>
                   {_msg.message} 
+                  <button
+                    className={classes.deleteChat}
+                    onClick={this.props.onDelete}
+                  >
+                    X
+                  </button>
                                     {this.props.chats.map((_chat, _index) => {
                     if (_chat.receiverHasRead === false) {
-                      return <p className={classes.seen}>seen</p>;
-                    } else {
-                      return <p className={classes.seen}>unseen</p>;
-                    }
-                  })}
+                      return <p className={classes.seen}><i class="fas fa-check"></i>
 
+                      </p>;
+                    } else {
+                      return <p className={classes.unseen}><i class="fas fa-check"></i>
+
+                      </p>;
+                    }
+                  
+                  })}
+  <p className={classes.chatDate}>
+                    {new Intl.DateTimeFormat("en-US", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    }).format(_msg.timestamp)}
+                  </p>
                  
   
                   {/* <button  onClick={(index)=>this.props.itemdel(_index,_msg)}>Remove</button>  */}
